@@ -26,7 +26,7 @@ class EventsService {
   }
 
   getEventsWithKeyword(keyword: string) {
-    axios
+    return axios
       .get(`${EVENTS_URL}&keyword=${keyword}`, {
         headers,
       })

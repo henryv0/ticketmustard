@@ -2,11 +2,11 @@
   <div class="event-list">
     <h1>Search by keyword!</h1>
 
-    <div v-if="events.length">
+    <div v-if="events?.length">
       Upcoming events:
 
       <Card v-for="event in events">
-        {{ event.description }}
+        {{ event.name }}
       </Card>
 
       <button>... Load more events</button>
@@ -33,19 +33,17 @@ export default defineComponent({
       isLoading: false,
     };
   },
-  setup: () => {
-    // api call to EventService
-    console.log(EventsService);
-  },
+  setup: () => {},
   methods: {
-    loadEvents(keyword: string) {
-      EventsService.getEventsWithKeyword(keyword);
+    async loadEvents(keyword: string) {
+      EventsService.getEventsWithKeyword(keyword).then((data) => {
+        console.log(data);
+        this.events = data._embedded.events;
+      });
     },
   },
   watch: {
     keyword(val, oldVal) {
-      console.log(val, oldVal);
-
       this.loadEvents(val);
     },
   },
