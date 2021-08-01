@@ -25,9 +25,9 @@ class EventsService {
       });
   }
 
-  getKeyword(keyword: string) {
+  getEventsWithKeyword(keyword: string) {
     axios
-      .get(`${EVENTS_URL}?keyword=${keyword}`, {
+      .get(`${EVENTS_URL}&keyword=${keyword}`, {
         headers,
       })
       .then((res) => {

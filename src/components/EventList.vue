@@ -1,12 +1,16 @@
 <template>
   <div class="event-list">
-    Upcoming events:
+    <h1>Search by keyword!</h1>
 
-    <Card v-for="event in events">
-      {{ event.description }}
-    </Card>
+    <div v-if="events.length">
+      Upcoming events:
 
-    <button>... Load more events</button>
+      <Card v-for="event in events">
+        {{ event.description }}
+      </Card>
+
+      <button>... Load more events</button>
+    </div>
   </div>
 </template>
 
@@ -20,14 +24,30 @@ import Card from "./Card.vue";
 export default defineComponent({
   name: "EventList",
   components: { Card },
-  props: {},
+  props: {
+    keyword: String,
+  },
   data: () => {
-    return { events: [{ description: "blah" }] };
+    return {
+      events: [],
+      isLoading: false,
+    };
   },
   setup: () => {
     // api call to EventService
     console.log(EventsService);
-    EventsService.get("test");
+  },
+  methods: {
+    loadEvents(keyword: string) {
+      EventsService.getEventsWithKeyword(keyword);
+    },
+  },
+  watch: {
+    keyword(val, oldVal) {
+      console.log(val, oldVal);
+
+      this.loadEvents(val);
+    },
   },
 });
 </script>

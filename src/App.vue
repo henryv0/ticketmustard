@@ -4,8 +4,8 @@
   </div>-->
   <!--<HelloWorld msg="Hello Vue 3 + TypeScript + Viteeee" />-->
   <div class="container mx-auto">
-    <Search />
-    <EventList />
+    <Search @update-keyword="setKeyword" />
+    <EventList :keyword="keyword" />
   </div>
 </template>
 
@@ -22,6 +22,17 @@ export default defineComponent({
     EventList,
     Search,
   },
+  data() {
+    return {
+      keyword: null
+    }
+  },
+  methods: {
+    setKeyword(newKeyword: string) {
+      console.log('NEW KEYWORD', newKeyword)
+      this.keyword = newKeyword;
+    }
+  }
 });
 </script>
 
