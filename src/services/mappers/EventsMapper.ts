@@ -6,13 +6,14 @@ export default class EventsMapper {
       events: any[];
     };
   };
+  _count: number;
 
   constructor(data: any) {
     this.data = data;
+    this._count = data.page.totalElements;
   }
 
   convert(): IEvent[] {
-      console.log('convefsi')
     if (!this.data) return [];
 
     return this.data._embedded.events.map((event) => {
@@ -23,8 +24,12 @@ export default class EventsMapper {
         dates: event.dates,
         images: event.images,
         priceRanges: event.priceRanges,
-        venues: event._embedded.venues,
+        venues: event._embedded?.venues,
       };
     });
+  }
+
+  get count(): number {
+      return this._count;
   }
 }

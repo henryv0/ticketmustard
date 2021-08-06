@@ -1,3 +1,4 @@
+import { IEvent } from "@/interfaces/Event";
 import axios from "axios";
 import EventsMapper from "./mappers/EventsMapper";
 
@@ -26,17 +27,22 @@ class EventsService {
       });
   }
 
-  getEventsWithKeyword(keyword: string) {
+  getEventsWithKeyword(keyword: string): Promise<{ events: IEvent[]; count: number } | void> {
     return axios
       .get(`${EVENTS_URL}&keyword=${keyword}`, {
         headers,
       })
       .then((res) => {
         console.log(res);
-        const mappedEvents = new EventsMapper(res.data).convert();
-        return mappedEvents;
+        const mapper = new EventsMapper(res.data);
+        return {
+          events: mapper.convert(),
+          count: mapper.count
+        }
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+      });
   }
 }
 

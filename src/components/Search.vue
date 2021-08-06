@@ -2,7 +2,7 @@
   <div>
     <input
       @input="handleChange"
-      placeholder="Search keywords"
+      placeholder="Search for 'bowling'"
       type="search"
       class="border rounded-sm border-solid"
       :value="searchKeyword"

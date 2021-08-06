@@ -3,7 +3,7 @@
     <h1>Search by keyword!</h1>
 
     <div v-if="events?.length">
-      Upcoming events for "{{ keyword }}":
+      {{ eventCount }} Upcoming events for "{{ keyword }}":
 
       <Card v-for="event in events"
         >
@@ -36,6 +36,7 @@ export default defineComponent({
   data: () => {
     return {
       events: [],
+      eventCount: 0,
       isLoading: false,
       hasNoResults: false
     };
@@ -47,11 +48,13 @@ export default defineComponent({
       
       EventsService.getEventsWithKeyword(keyword).then((data) => {
         console.log(data);
-        this.events = data;
+        this.events = data.events;
+        this.eventCount = data.count;
       }).catch(err => {
         console.error(err);
 
         this.events = [];
+        this.eventCount = 0;
         this.hasNoResults = true;
       });
     },
