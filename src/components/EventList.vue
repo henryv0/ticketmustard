@@ -3,13 +3,19 @@
     <h1>Search by keyword!</h1>
 
     <div v-if="events?.length">
-      Upcoming events:
+      Upcoming events for "{{ keyword }}":
 
-      <Card v-for="event in events">
+      <Card v-for="event in events"
+        >
         {{ event.name }}
+        {{ event.url }}
+        {{ event.date }}
       </Card>
 
       <button>... Load more events</button>
+    </div>
+    <div v-if="hasNoResults">
+      No events found!
     </div>
   </div>
 </template>
@@ -31,19 +37,28 @@ export default defineComponent({
     return {
       events: [],
       isLoading: false,
+      hasNoResults: false
     };
   },
   setup: () => {},
   methods: {
     async loadEvents(keyword: string) {
+      this.hasNoResults = false;
+      
       EventsService.getEventsWithKeyword(keyword).then((data) => {
         console.log(data);
         this.events = data._embedded.events;
+      }).catch(err => {
+        console.error(err);
+
+        this.events = [];
+        this.hasNoResults = true;
       });
     },
   },
   watch: {
     keyword(val, oldVal) {
+      console.log(val, oldVal);
       this.loadEvents(val);
     },
   },
