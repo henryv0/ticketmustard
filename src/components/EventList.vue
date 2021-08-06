@@ -47,7 +47,7 @@ export default defineComponent({
       
       EventsService.getEventsWithKeyword(keyword).then((data) => {
         console.log(data);
-        this.events = data._embedded.events;
+        this.events = data;
       }).catch(err => {
         console.error(err);
 

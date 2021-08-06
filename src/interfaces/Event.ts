@@ -1,4 +1,5 @@
 import { Image } from "./Image";
+import { Venue } from "./Venue";
 
 export enum Entities {
     Event = "event"
@@ -10,21 +11,25 @@ export interface IDate {
     dateTime: string;
 }
 
+export interface PriceRange {
+    type: string;
+    currency: string;
+    min: number;
+    max: number;
+}
+
 export interface IEvent {
     name: string;
-    type: Entities.Event;
     id: string;
-    distance: number;
-    units: number;
-    location: { longitude: number; lattitude: number };
-    description: string;
-    locale: string;
+    url: string;
     images: Image[];
+    priceRanges: PriceRange[];
     dates: {
         start: Date;
         end: Date;
         status: { code: string; };
         timezone: string;
         spanMultipleDays: boolean;
-    }
+    },
+    venues: Venue[];
 }

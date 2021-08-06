@@ -1,4 +1,5 @@
 import axios from "axios";
+import EventsMapper from "./mappers/EventsMapper";
 
 // const BASE_URL = import.meta.env.VITE_APP_API_URL;
 // const API_KEY = import.meta.env.VITE_APP_TICKETMASTER_API_KEY;
@@ -32,7 +33,8 @@ class EventsService {
       })
       .then((res) => {
         console.log(res);
-        return res.data;
+        const mappedEvents = new EventsMapper(res.data).convert();
+        return mappedEvents;
       })
       .catch(err => console.error(err));
   }
