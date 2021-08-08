@@ -1,12 +1,20 @@
 <template>
-  <!--<div class="flex justify-center content-center">
-    <img alt="Vue logo" src="./assets/logo.png" />
-  </div>-->
-  <!--<HelloWorld msg="Hello Vue 3 + TypeScript + Viteeee" />-->
-  <div class="container mx-auto">
-    <Search @update-keyword="setKeyword" />
-    <EventList :keyword="keyword" />
-  </div>
+  <body class="grid grid-rows-layout min-h-screen">
+    <header class="bg-mustard py-5">
+      <div class="container mx-auto p-5">
+        <h1 class="text-black text-xl font-extrabold">ticketmustard 🎫</h1>
+      </div>
+    </header>
+    <div class="container mx-auto p-5">
+      <Search @update-keyword="setKeyword" />
+      <EventList :keyword="keyword" />
+    </div>
+    <footer class="bg-mustard py-5">
+      <div class="container mx-auto p-5 text-right text-xs">
+        &copy; TICKETMUSTARD 2021
+      </div>
+    </footer>
+  </body>
 </template>
 
 <script lang="ts">
@@ -24,25 +32,22 @@ export default defineComponent({
   },
   data() {
     return {
-      keyword: null
-    }
+      keyword: "",
+    };
   },
   methods: {
     setKeyword(newKeyword: string) {
-      console.log('NEW KEYWORD', newKeyword)
+      console.log("NEW KEYWORD", newKeyword);
       this.keyword = newKeyword;
-    }
-  }
+    },
+  },
 });
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

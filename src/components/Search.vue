@@ -4,11 +4,11 @@
       @input="handleChange"
       placeholder="Search for 'bowling'"
       type="search"
-      class="border rounded-sm border-solid"
+      class="border-2 rounded-sm border-solid p-3"
       :value="searchKeyword"
       @keyup.enter="submitSearch"
     />
-    <button @click="submitSearch">Search</button>
+    <button @click="submitSearch" class="p-3 bg-skyblue ml-3 font-bold border-2">SEARCH</button>
   </div>
 </template>
 

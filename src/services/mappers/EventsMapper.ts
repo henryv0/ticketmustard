@@ -1,4 +1,5 @@
 import { IEvent } from "../../interfaces/Event";
+import DateMapper from "./DateMapper";
 
 export default class EventsMapper {
   data: {
@@ -21,7 +22,7 @@ export default class EventsMapper {
         id: event.id,
         name: event.name,
         url: event.url,
-        dates: event.dates,
+        dates: new DateMapper(event.dates).convert(),
         images: event.images,
         priceRanges: event.priceRanges,
         venues: event._embedded?.venues,

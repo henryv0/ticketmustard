@@ -6,9 +6,8 @@ export enum Entities {
 }
 
 export interface IDate {
-    localDate: string;
-    localTime: string;
-    dateTime: string;
+    start: Date;
+    timezone?: string;
 }
 
 export interface PriceRange {
@@ -24,12 +23,6 @@ export interface IEvent {
     url: string;
     images: Image[];
     priceRanges: PriceRange[];
-    dates: {
-        start: Date;
-        end: Date;
-        status: { code: string; };
-        timezone: string;
-        spanMultipleDays: boolean;
-    },
+    dates: IDate;
     venues: Venue[];
 }

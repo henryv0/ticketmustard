@@ -1,22 +1,24 @@
 <template>
-  <div class="event-list">
-    <h1>Search by keyword!</h1>
-
+  <div class="mt-4">
     <div v-if="events?.length">
       {{ eventCount }} Upcoming events for "{{ keyword }}":
 
-      <Card v-for="event in events"
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-2 mb-2">
+        <Card
+          v-for="event in events"
+          :name="event.name"
+          :url="event.url"
+          :images="event.images"
+          :dates="event.dates"
+          :priceRanges="event.priceRanges"
+          :venues="event.venues"
         >
-        {{ event.name }}
-        {{ event.url }}
-        {{ event.date }}
-      </Card>
+        </Card>
+      </div>
 
       <button>... Load more events</button>
     </div>
-    <div v-if="hasNoResults">
-      No events found!
-    </div>
+    <div v-if="hasNoResults">No events found!</div>
   </div>
 </template>
 
@@ -38,25 +40,30 @@ export default defineComponent({
       events: [],
       eventCount: 0,
       isLoading: false,
-      hasNoResults: false
+      hasNoResults: false,
     };
   },
   setup: () => {},
+  onUpdated: () => {
+    this.loadEvents()
+  },
   methods: {
     async loadEvents(keyword: string) {
       this.hasNoResults = false;
-      
-      EventsService.getEventsWithKeyword(keyword).then((data) => {
-        console.log(data);
-        this.events = data.events;
-        this.eventCount = data.count;
-      }).catch(err => {
-        console.error(err);
 
-        this.events = [];
-        this.eventCount = 0;
-        this.hasNoResults = true;
-      });
+      EventsService.getEventsWithKeyword(keyword)
+        .then((data) => {
+          console.log(data);
+          this.events = data.events;
+          this.eventCount = data.count;
+        })
+        .catch((err) => {
+          console.error(err);
+
+          this.events = [];
+          this.eventCount = 0;
+          this.hasNoResults = true;
+        });
     },
   },
   watch: {
