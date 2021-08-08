@@ -27,9 +27,11 @@ class EventsService {
       });
   }
 
-  getEventsWithKeyword(keyword: string): Promise<{ events: IEvent[]; count: number } | void> {
+  getEventsWithKeyword(page: number, keyword: string): Promise<{ events: IEvent[]; count: number } | void> {
+    console.log(`&keyword=${keyword}&page=${page}`);
+
     return axios
-      .get(`${EVENTS_URL}&keyword=${keyword}`, {
+      .get(`${EVENTS_URL}&keyword=${keyword}&page=${page}`, {
         headers,
       })
       .then((res) => {

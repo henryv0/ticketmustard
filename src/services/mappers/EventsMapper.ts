@@ -15,7 +15,7 @@ export default class EventsMapper {
   }
 
   convert(): IEvent[] {
-    if (!this.data) return [];
+    if (!this.data._embedded) return [];
 
     return this.data._embedded.events.map((event) => {
       return {

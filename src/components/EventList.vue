@@ -3,9 +3,12 @@
     <div v-if="events?.length">
       {{ eventCount }} Upcoming events for "{{ keyword }}":
 
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-2 mb-2">
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-2 mb-2"
+      >
         <Card
           v-for="event in events"
+          :key="event.id"
           :name="event.name"
           :url="event.url"
           :images="event.images"
@@ -16,7 +19,15 @@
         </Card>
       </div>
 
-      <button>... Load more events</button>
+      <div class="flex justify-center">
+        <button
+          @click="loadMoreEvents"
+          :disabled="isButtonDisabled"
+          class="bg-skyblue font-bold mt-5 border-2 p-3 disabled:opacity-50"
+        >
+          LOAD MORE EVENTS
+        </button>
+      </div>
     </div>
     <div v-if="hasNoResults">No events found!</div>
   </div>
@@ -39,21 +50,25 @@ export default defineComponent({
     return {
       events: [],
       eventCount: 0,
+      page: 0,
       isLoading: false,
       hasNoResults: false,
     };
   },
   setup: () => {},
   onUpdated: () => {
-    this.loadEvents()
+    this.loadEvents();
   },
   methods: {
     async loadEvents(keyword: string) {
       this.hasNoResults = false;
 
-      EventsService.getEventsWithKeyword(keyword)
+      EventsService.getEventsWithKeyword(this.page, keyword)
         .then((data) => {
           console.log(data);
+
+          if (data.events.length === 0) this.hasNoResults = true;
+
           this.events = data.events;
           this.eventCount = data.count;
         })
@@ -64,6 +79,24 @@ export default defineComponent({
           this.eventCount = 0;
           this.hasNoResults = true;
         });
+    },
+    async loadMoreEvents() {
+      this.page++;
+
+      EventsService.getEventsWithKeyword(this.page, this.keyword).then(
+        (data) => {
+          this.events = this.events.concat(data.events);
+
+          console.log(this.page);
+        }
+      );
+    },
+  },
+  computed: {
+    isButtonDisabled() {
+      console.log(this.events.length);
+      console.log(this.eventCount);
+      return this.events.length === this.eventCount;
     },
   },
   watch: {
