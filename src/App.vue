@@ -7,7 +7,23 @@
     </header>
     <div class="container mx-auto p-5">
       <Search @update-keyword="setKeyword" />
-      <EventList :keyword="keyword" />
+      <div class="flex">
+        <div class="mt-5 border border-solid p-2 inline-block text-sm">
+          City:
+          <select v-model="cityFilter">
+            <option value="melbourne">Melbourne</option>
+            <option value="sydney">Sydney</option>
+            <option value="brisbane">Brisbane</option>
+          </select>
+        </div>
+        <div class="ml-3 mt-5 border border-solid p-2 inline-block text-sm opacity-50">
+          Country:
+          <select v-model="countryFilter" disabled>
+            <option value="AU">Australia</option>
+          </select>
+        </div>
+      </div>
+      <EventList :keyword="keyword" :filters="filters" />
     </div>
     <footer class="bg-mustard py-5">
       <div class="container mx-auto p-5 text-right text-xs">
@@ -19,20 +35,20 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
 import EventList from "./components/EventList.vue";
 import Search from "./components/Search.vue";
 
 export default defineComponent({
   name: "App",
   components: {
-    HelloWorld,
     EventList,
     Search,
   },
   data() {
     return {
       keyword: "",
+      cityFilter: "melbourne",
+      countryFilter: "AU"
     };
   },
   methods: {
@@ -41,6 +57,15 @@ export default defineComponent({
       this.keyword = newKeyword;
     },
   },
+  computed: {
+    filters() {
+        console.log(this.cityFilter, this.countryFilter)
+      return {
+        city: this.cityFilter,
+        country: this.countryFilter
+      }
+    }
+  }
 });
 </script>
 

@@ -45,6 +45,8 @@ export default defineComponent({
   components: { Card },
   props: {
     keyword: String,
+    countryFilter: String,
+    filters: Object
   },
   data: () => {
     return {
@@ -60,10 +62,11 @@ export default defineComponent({
     this.loadEvents();
   },
   methods: {
-    async loadEvents(keyword: string) {
+    async loadEvents(keyword = this.keyword) {
       this.hasNoResults = false;
+      console.log(this.filters)
 
-      EventsService.getEventsWithKeyword(this.page, keyword)
+      EventsService.getEventsWithKeyword(this.page, keyword, this.filters)
         .then((data) => {
           console.log(data);
 
@@ -83,7 +86,7 @@ export default defineComponent({
     async loadMoreEvents() {
       this.page++;
 
-      EventsService.getEventsWithKeyword(this.page, this.keyword).then(
+      EventsService.getEventsWithKeyword(this.page, this.keyword, this.filters).then(
         (data) => {
           this.events = this.events.concat(data.events);
 
@@ -104,6 +107,16 @@ export default defineComponent({
       console.log(val, oldVal);
       this.loadEvents(val);
     },
+    countryFilter(val, oldVal) {
+      console.log(val, oldVal);
+      this.loadEvents();
+    },
+    filters: {
+      deep: true,
+      handler() {
+        this.loadEvents();
+      }
+    }
   },
 });
 </script>

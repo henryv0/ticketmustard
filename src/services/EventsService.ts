@@ -27,11 +27,18 @@ class EventsService {
       });
   }
 
-  getEventsWithKeyword(page: number, keyword: string): Promise<{ events: IEvent[]; count: number } | void> {
-    console.log(`&keyword=${keyword}&page=${page}`);
+  getEventsWithKeyword(
+    page: number,
+    keyword: string,
+    filters: { [key: string]: string }
+  ): Promise<{ events: IEvent[]; count: number } | void> {
+    console.log(filters);
+    
+    let filterParams = this.convertFiltersToParams(filters);
+    console.log(`${EVENTS_URL}&keyword=${keyword}&page=${page}${filterParams}`);
 
     return axios
-      .get(`${EVENTS_URL}&keyword=${keyword}&page=${page}`, {
+      .get(`${EVENTS_URL}&keyword=${keyword}&page=${page}${filterParams}`, {
         headers,
       })
       .then((res) => {
@@ -39,12 +46,25 @@ class EventsService {
         const mapper = new EventsMapper(res.data);
         return {
           events: mapper.convert(),
-          count: mapper.count
-        }
+          count: mapper.count,
+        };
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
+  }
+
+  private convertFiltersToParams(filters: { [key: string]: string }) {
+    let filterParams = "";
+
+    if (filters != null && Object.keys(filters)?.length) {
+      const filterKeys = Object.keys(filters);
+      for (let key of filterKeys) {
+        filterParams = filterParams.concat("", `&${key}=${filters[key]}`);
+      }
+    }
+
+    return filterParams;
   }
 }
 

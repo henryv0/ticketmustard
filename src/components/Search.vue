@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-2xl">
     <input
       @input="handleChange"
       placeholder="Search for 'ska'"

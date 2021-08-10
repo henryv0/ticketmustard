@@ -19,7 +19,7 @@ export default class DateMapper {
     if (date.dateTime != null) {
       return new Date(date.dateTime);
     }
-    if (date.localDate != null && date.localTime !== null) {
+    if (date.localDate != null && date.localTime != null) {
       return new Date(`${date.localDate} ${date.localTime}`);
     }
     if (date.localDate != null) {
