@@ -59,7 +59,6 @@ export default defineComponent({
   },
   computed: {
     filters() {
-        console.log(this.cityFilter, this.countryFilter)
       return {
         city: this.cityFilter,
         country: this.countryFilter

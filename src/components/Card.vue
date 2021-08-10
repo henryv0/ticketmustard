@@ -28,7 +28,7 @@ export default defineComponent({
       // Grab first 3_2 image for MVP
       const firstImage = this.images.find(image => image.ratio === "3_2")
 
-      return firstImage.url;
+      return firstImage?.url;
     }
   }
 });
