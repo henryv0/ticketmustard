@@ -3,18 +3,6 @@ import EventList from "./EventList.vue";
 import Card from "./Card.vue";
 
 describe("EventList", () => {
-  it("should render eventList markup", () => {
-    const keyword = "comedy";
-    const filters = {
-      country: "NZ",
-      city: "Auckland",
-      keyword: "test",
-    };
-    const wrapper = mount(EventList, { props: { keyword, filters } });
-
-    expect(wrapper.classes()).toContain(`mt-4`);
-  });
-
   it("should display event content correctly", () => {
     const keyword = "comedy";
     const filters = {};
