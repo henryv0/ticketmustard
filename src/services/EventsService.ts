@@ -14,17 +14,12 @@ class EventsService {
     keyword: string,
     filters: { [key: string]: string }
   ): Promise<{ events: IEvent[]; count: number } | void> {
-    console.log(filters);
-    
     let filterParams = this.convertFiltersToParams(filters);
-    console.log(`${EVENTS_URL}&keyword=${keyword}&page=${page}${filterParams}`);
-
     return axios
       .get(`${EVENTS_URL}&keyword=${keyword}&page=${page}${filterParams}`, {
         headers,
       })
       .then((res) => {
-        console.log(res);
         const mapper = new EventsMapper(res.data);
         return {
           events: mapper.convert(),

@@ -2,8 +2,6 @@ import { mount } from "@vue/test-utils";
 import EventList from "./EventList.vue";
 import Card from "./Card.vue";
 
-// jest.mock("../services/EventsService");
-
 describe("EventList", () => {
   it("should render eventList markup", () => {
     const keyword = "comedy";
@@ -48,48 +46,29 @@ describe("EventList", () => {
       },
     });
 
-    console.log(wrapper.vm);
-    console.log(wrapper.html());
-
-    // wrapper.vm.loadEvents(); need to simulate
-
     expect(wrapper.vm.events).toStrictEqual([]);
     expect(wrapper.vm.eventCount).toBe(0);
-    // expect(wrapper.vm.hasNoResults).toBe(false);
 
     expect(wrapper.text()).not.toContain(`Upcoming events for "${keyword}`);
     expect(wrapper.findComponent(Card).exists()).toBe(false);
     expect(wrapper.findAllComponents(Card).length).toBe(0);
   });
 
-  it("", () => {});
-  it("should trigger load events on prop change", async () => {
-    const keyword = "comedy";
-    const filters = {};
-
+  it("should disable load more button", () => {
     const wrapper = mount(EventList, {
-      props: { keyword, filters },
       data() {
         return {
-          events: [],
+          events: TEST_EVENTS,
+          eventCount: 2
         };
       },
     });
 
-    // const mockMethod = jest.spyOn(wrapper.vm, "loadEvents");
-    // await wrapper.setProps({ keyword, filters: { country: "NZ" } });
-    // await shallowMount(MyComponent).find("button").trigger("click");
+    const loadMoreButton = wrapper.find('button');
 
-    // wrapper.vm.props
-    
-
-    // expect(mockMethod).toHaveBeenCalled();
+    expect(wrapper.vm.isButtonDisabled).toBe(true);
+    expect(loadMoreButton.attributes()).toHaveProperty('disabled');
   });
-
-  // it should load events and cards correctly on success
-  // It should display hasnoresults on fail
-  // It should display hasnoresults when hasnoresults
-  // it should disable load more button when events.length === eventCount
 });
 
 const TEST_EVENTS = [

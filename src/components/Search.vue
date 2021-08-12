@@ -24,19 +24,13 @@ export default defineComponent({
     };
   },
   setup: () => {
-    // const handleEnter = (e) => {
-    //   console.log(e);
-    // };
   },
   emits: ["updateKeyword"],
   methods: {
     submitSearch() {
-      console.log(this.searchKeyword);
-      //   EventsService.getKeyword(this.searchKeyword);
       this.$emit("updateKeyword", this.searchKeyword);
     },
     handleChange(event: Event) {
-      console.log((event.target as HTMLInputElement).value);
       this.searchKeyword = event.target.value;
     },
   },

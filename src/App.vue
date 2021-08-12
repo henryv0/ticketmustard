@@ -53,7 +53,6 @@ export default defineComponent({
   },
   methods: {
     setKeyword(newKeyword: string) {
-      console.log("NEW KEYWORD", newKeyword);
       this.keyword = newKeyword;
     },
   },
