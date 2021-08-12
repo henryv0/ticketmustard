@@ -36,7 +36,7 @@ class EventsService {
       });
   }
 
-  private convertFiltersToParams(filters: { [key: string]: string }) {
+  convertFiltersToParams(filters: { [key: string]: string }): string {
     let filterParams = "";
 
     if (filters != null && Object.keys(filters)?.length) {

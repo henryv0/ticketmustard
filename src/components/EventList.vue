@@ -52,7 +52,6 @@ export default defineComponent({
       events: [],
       eventCount: 0,
       page: 0,
-      isLoading: false,
       hasNoResults: false,
     };
   },
@@ -67,6 +66,7 @@ export default defineComponent({
 
       EventsService.getEvents(this.page, keyword, this.filters)
         .then((data) => {
+          console.log(data.events);
           if (data.events.length === 0) this.hasNoResults = true;
 
           this.events = data.events;
